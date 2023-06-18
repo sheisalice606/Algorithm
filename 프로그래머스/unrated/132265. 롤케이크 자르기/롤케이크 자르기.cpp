@@ -1,12 +1,13 @@
 #include <string>
 #include <vector>
 #include <map>
-#include <set>
 using namespace std;
 
 map<int, int> Map;
+map<int, int> Map_2;
 int N;
 int Size;
+int Size_2;
 
 int solution(vector<int> topping) {
     
@@ -15,29 +16,22 @@ int solution(vector<int> topping) {
     for(int i = 0; i < N; i++) {
         Map[topping[i]]++;
     }
-    for(auto E : Map) {
-        if(E.second > 0) {
-            Size++;
-        }
-    }
+    Size = Map.size();
     //토핑의 종류 수 = Size;
-    
-    
-    set<int> Set;
-    int Size_Of_Set = 0;
-    
+
     int Cnt = 0;
     
     for(int i = 0; i < N; i++) {
-        int Last = topping.back();
-        topping.pop_back();
-        Map[Last]--;
-        if(Map[Last] == 0) Size--;
+        Map[topping[i]]--;
+        if(Map[topping[i]] == 0) {
+            Map.erase(topping[i]);
+        }
+        Map_2[topping[i]]++;
         
-        Set.insert(Last);
-        Size_Of_Set = Set.size();
+        Size = Map.size();
+        Size_2 = Map_2.size();
 
-        if(Size == Size_Of_Set) Cnt++;
+        if(Size == Size_2) Cnt++;
     }
     
     return Cnt;
