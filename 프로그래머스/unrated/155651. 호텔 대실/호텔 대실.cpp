@@ -21,7 +21,6 @@ int solution(vector<vector<string>> book_time) {
         int First = stoi(book_time[i][0].substr(0, 2)) * 60 + stoi(book_time[i][0].substr(3));
         int Last = stoi(book_time[i][1].substr(0, 2)) * 60 + stoi(book_time[i][1].substr(3));  
         
-        //바로 방 체인지 가능한 경우
         if(PQ.top() + 10 <= First)
         {
             PQ.pop();
@@ -36,13 +35,6 @@ int solution(vector<vector<string>> book_time) {
     
     
     return Cnt;
-    
-    
-    
-    
-    
-    
-    
     
     
 }
