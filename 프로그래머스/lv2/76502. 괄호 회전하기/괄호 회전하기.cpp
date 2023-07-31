@@ -7,71 +7,40 @@ using namespace std;
 
 int N;
 int Ans;
+string Str;
 
-struct Node {
-    char c;
-    int idx;
-};
-
-vector<Node> Vector;
-
-//인덱스 오름차순 정렬
-bool Cmp(Node A, Node B) {
-    return A.idx < B.idx;
-}
-
-//인덱스 범위 변환 
-int Make_Range(int num) {
-    if(num < 0) {
-        num = N + num;
-    }
-    return num;
+//문자열 회전
+void Rotation() {
+    Str.push_back(Str[0]);
+    Str.erase(0, 1);
 }
 
 //올바른 문자열 여부 확인
-bool Check(string str) {
+bool Check() {
     
-    // ( { ) }
     stack<char> Stack;
     
-    for(int i = 0; i < str.length(); i++)
+    for(int i = 0; i < Str.length(); i++)
     {
-        if(str[i] == '(') 
+        if(Str[i] == '(' || Str[i] == '{' || Str[i] == '[') 
         {
-            Stack.push('(');
+            Stack.push(Str[i]);
             continue;
         }
-        if(str[i] == '{') 
-        {
-            Stack.push('{');
-            continue;
-        }
-        if(str[i] == '[') 
-        {
-            Stack.push('[');
-            continue;
-        }
-        
-        
         if(Stack.size() == 0) return false;
         
-        if(str[i] == ')')
+        if(Str[i] == ')') 
         {
-            if(Stack.top() == '(') Stack.pop();
-            continue;
+            if(Stack.top() == '(') Stack.pop();        
         }
-        if(str[i] == '}')
+        else if(Str[i] == '}')
         {
             if(Stack.top() == '{') Stack.pop();
-            continue;
         }
-        if(str[i] == ']')
+        else if(Str[i] == ']') 
         {
             if(Stack.top() == '[') Stack.pop();
-            continue;
         }
-        
-        
     }
     
     if(Stack.size() > 0) return false;
@@ -82,33 +51,13 @@ bool Check(string str) {
 int solution(string s) {
     
     N = s.length();
+    Str = s;
     //전역 변수 초기화
     
     for(int n = 0; n < N; n++)
     {
-        for(int i = 0; i < N; i++) 
-        {
-            Vector.push_back({s[i], i});
-        }
-        //문자, 인덱스
-        for(auto &E : Vector)
-        {
-            E.idx -= n;
-            E.idx = Make_Range(E.idx);
-            //인덱스 변경
-        }
-        sort(Vector.begin(), Vector.end(), Cmp);
-        
-        string str = "";
-        for(auto &E : Vector)
-        {
-            str.push_back(E.c);
-        }
-        //바뀐 문자열 생성
-        
-        if(Check(str) == true) Ans++;
-        Vector.clear();
-        
+        Rotation();
+        if(Check() == true) Ans++;
     }
     
     return Ans;
