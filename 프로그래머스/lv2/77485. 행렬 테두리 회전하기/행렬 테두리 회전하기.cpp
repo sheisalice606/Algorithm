@@ -99,10 +99,6 @@ vector<int> solution(int rows, int columns, vector<vector<int>> queries) {
         for(auto E : Vector)
         {
             Map[E.x][E.y] = E.num;
-            
-            // Ans.push_back(E.x);
-            // Ans.push_back(E.y);
-            
             Min = min(Min, E.num); 
         }
     
