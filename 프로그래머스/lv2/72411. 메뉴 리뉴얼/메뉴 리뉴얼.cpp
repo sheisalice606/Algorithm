@@ -7,8 +7,6 @@
 using namespace std;
 
 string Curr;
-int Visit[20];
-
 unordered_map<string, int> Map;
 
 bool Cmp(pair<int, string> A, pair<int, string> B) {
@@ -31,11 +29,7 @@ void Dfs(int Count, int Index, string Str, int Goal) {
     //오름차순 & 중복 알파벳 제거
     for(int i = Index; i < Curr.length(); i++)
     {
-        if(Visit[i] == 1) continue;
-        
-        Visit[i] = 1;
         Dfs(Count + 1, i + 1, Str + Curr[i], Goal);
-        Visit[i] = 0;
     }
     
 }
@@ -54,7 +48,6 @@ vector<string> solution(vector<string> orders, vector<int> course) {
         for(int i = 1; i <= Curr.length(); i++)
         {
             Dfs(0, 0, "", i);
-            memset(Visit, 0, sizeof(Visit));
         }
     }
     
