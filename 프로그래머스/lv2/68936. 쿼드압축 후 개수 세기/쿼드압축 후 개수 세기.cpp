@@ -21,9 +21,7 @@ bool Check(int px, int py, int Size) {
     
     int nx = px + Size;
     int ny = py + Size;
-    
-    if(nx)
-    
+
     //사각형 순회
     for(int i = px; i < nx; i++)
     {
