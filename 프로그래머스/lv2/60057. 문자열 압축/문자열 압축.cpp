@@ -10,72 +10,51 @@ int Ans = 9999;
 
 void Check_Zip(string s, int count)
 {
-    
-    string Fin = "";
-    
+    string Result = "";
     
     string Temp = s.substr(0, count);
-    string Curr = "";
+    int Same = 1;
     
-    int Same = 0;
-    
-    int en = 0;
-    for(int st = 0; st < s.length(); st++)
+    for(int i = count; i < s.length(); i += count)
     {
-        while(en - st < count && en < s.length())
-        {
-            Curr += s[en];
-            en++;
-        }
-        //en - st = count 상태
-        
-        if(Curr == Temp)
-        {
-            if(en != count) Same++;
-        }
+        string Curr = s.substr(i, count);
+        if(Temp == Curr) Same++;
         else
         {
-            if(Same > 0)
+            if(Same == 1)
             {
-                string Insert = to_string(Same + 1) + Temp;
-                Fin += Insert;
-                Same = 0;
+                Result += Temp;
             }
-            else if(Same == 0)
+            else
             {
-                Fin += Temp;
+                Result += to_string(Same) + Temp;
+                Same = 1;
+                //cout << "Temp : " << Temp << endl;
             }
-            
-            // cout << "next string : " << Curr << endl;
             Temp = Curr;
         }
-        
-        Curr = "";
-        st = en - 1;
-        
     }
-    // 마지막 문자열 검증 진행
+    //마지막 문자열 처리
     
-    if(Same > 0)
+    if(Same == 1)
     {
-        string Insert = to_string(Same + 1) + Temp;
-        Fin += Insert;
-        Same = 0;
+        Result += Temp;
     }
-    else if(Same == 0)
+    else
     {
-        Fin += Temp;
+        Result += to_string(Same) + Temp;
     }
-
     
+    //cout << "Result : " << Result << endl << endl;
     
-    // cout << "Fin : " << Fin << endl << endl;
-    Ans = min(Ans, static_cast<int>(Fin.length()));
+    int Len = Result.length();
+    Ans = min(Ans, Len);
+    
 }
 
 
 int solution(string s) {
-    for(int i = 0; i < s.length(); i++)
+    for(int i = 0; i <= s.length() / 2; i++)
     {
         Check_Zip(s, i + 1);
     }
