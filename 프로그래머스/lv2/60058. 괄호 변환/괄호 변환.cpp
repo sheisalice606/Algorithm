@@ -4,28 +4,6 @@
 
 using namespace std;
 
-//쪼갤 수 있는 경우 true
-bool Can_Split(string str)
-{
-    int cnt_1 = 0;
-    int cnt_2 = 0;
-    int half = str.length() / 2;
-    
-    for(int i = 0; i < str.length(); i++)
-    {
-        if(str[i] == '(') cnt_1++;
-        else if(str[i] == ')') cnt_2++;
-        
-        if(cnt_1 == cnt_2)
-        {
-            if(cnt_1 == half && cnt_2 == half) return false;
-            else return true;
-        }
-    }
-    
-    return false;
-}
-
 
 //균형잡힌 괄호 문자열 여부 확인
 bool Check_Count(string str)
@@ -39,8 +17,7 @@ bool Check_Count(string str)
         else if(str[i] == ')') cnt_2++;
     }
     
-    if(cnt_1 == cnt_2) return true;
-    else return false;
+    return (cnt_1 == cnt_2);
 }
 
 //올바른 괄호 문자열 여부 확인
@@ -92,39 +69,28 @@ string Recursion(string str)
         return str;
     }
     
-    if(Can_Split(str) == false)
+    int ret = 2;
+    string U = str.substr(0, ret);
+    string V = str.substr(ret);
+    
+    while(Check_Count(U) == false)
     {
-        string reverse_str = Reverse(str.substr(1, str.length() - 2));
-        return "()" + reverse_str;  
+        ret += 2;
+        U = str.substr(0, ret);
+        V = str.substr(ret);
     }
+    //이 반복문을 탈출하면, U 는 최소길이 균형잡힌 괄호 문자열이다.
     
-    
-    
-    string V = "";
-    for(int i = str.length() - 1; i >= 0; i--)
+    if(Check_Shape(U) == true)
     {
-        string U = str.substr(0, i);
-        V = str[i] + V;
-        
-        if(Check_Count(V) == true && Can_Split(U) == false)
-        {
-            if(Check_Shape(U) == true)
-            {
-                return U + Recursion(V);
-            }
-            else
-            {
-                string N = "(";
-                N += Recursion(V);
-                N += ")";
-
-                string reverse_U = Reverse(U.substr(1, U.length() - 2));                
-                return N + reverse_U;
-            }
-        }
+        return U + Recursion(V);
     }
-    
-    
+    else
+    {
+        string N = "(" + Recursion(V) + ")";
+        string reverse_U = Reverse(U.substr(1, U.length() - 2));
+        return N + reverse_U;
+    }
     
 }
 
