@@ -56,25 +56,15 @@ void Check_Zip(string s, int count)
     }
     // 마지막 문자열 검증 진행
     
-    if(Curr == Temp)
+    if(Same > 0)
     {
-        if(en != count) Same++;
+        string Insert = to_string(Same + 1) + Temp;
+        Fin += Insert;
+        Same = 0;
     }
-    else
+    else if(Same == 0)
     {
-        if(Same > 0)
-        {
-            string Insert = to_string(Same + 1) + Temp;
-            Fin += Insert;
-            Same = 0;
-        }
-        else if(Same == 0)
-        {
-            Fin += Temp;
-        }
-            
-        // cout << "next string : " << Curr << endl;
-        Temp = Curr;
+        Fin += Temp;
     }
 
     
