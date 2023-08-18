@@ -82,27 +82,20 @@ string Reverse(string str)
 
 string Recursion(string str)
 {
-    if(str == "") return "";
-    
-    if(Check_Count(str) == true && Can_Split(str) == false)
+    if(str == "")
     {
-        if(Check_Shape(str) == true)
-        {
-            return str + Recursion("");
-        }
-        else
-        {
-            string N = "(";
-            N += Recursion("");
-            N += ")";
-            
-            string Copy_str = str;
-            Copy_str.pop_back();
-            Copy_str.erase(0, 1);
-            
-            string reverse_str = Reverse(Copy_str);
-            return N + reverse_str;     
-        }
+        return "";
+    }
+    
+    if(Check_Shape(str) == true)
+    {
+        return str;
+    }
+    
+    if(Can_Split(str) == false)
+    {
+        string reverse_str = Reverse(str.substr(1, str.length() - 2));
+        return "()" + reverse_str;  
     }
     
     
@@ -124,13 +117,8 @@ string Recursion(string str)
                 string N = "(";
                 N += Recursion(V);
                 N += ")";
-                
-                string Copy_U = U;
-                
-                Copy_U.pop_back();
-                Copy_U.erase(Copy_U.begin());
-                string reverse_U = Reverse(Copy_U);
-                
+
+                string reverse_U = Reverse(U.substr(1, U.length() - 2));                
                 return N + reverse_U;
             }
         }
