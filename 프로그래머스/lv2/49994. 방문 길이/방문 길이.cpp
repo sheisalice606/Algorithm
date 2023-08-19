@@ -1,5 +1,6 @@
 #include <string>
 #include <set>
+#include <iostream>
 #include <vector>
 using namespace std;
 
@@ -19,15 +20,15 @@ struct Position {
     bool operator < (const Position& A) const
     {
         if (x1 != A.x1) {
-            return x1 < A.x1;
+            return x1 > A.x1;
         }
         if (y1 != A.y1) {
-            return y1 < A.y1;
+            return y1 > A.y1;
         }
         if (x2 != A.x2) {
-            return x2 < A.x2;
+            return x2 > A.x2;
         }
-        return y2 < A.y2;
+        return y2 > A.y2;
     }
     
 };
@@ -85,5 +86,6 @@ int solution(string dirs) {
     {
         Move(dirs[i]);
     }
+    
     return Set.size() / 2;
 }
