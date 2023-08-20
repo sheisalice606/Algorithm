@@ -6,12 +6,7 @@ using namespace std;
 int solution(vector<int> scoville, int K) {
 
     int Ans = 0;
-    priority_queue<int, vector<int>, greater<int>> PQ;
-    
-    for(int i = 0; i < scoville.size(); i++)
-    {
-        PQ.push(scoville[i]);
-    }
+    priority_queue<int, vector<int>, greater<int>> PQ(scoville.begin(), scoville.end());
     
     while(PQ.top() < K)
     {
@@ -26,12 +21,7 @@ int solution(vector<int> scoville, int K) {
         
         int Second = PQ.top();
         PQ.pop();
-        
-        if(First == 0 && Second == 0)
-        {
-            Ans = -1;
-            break;
-        }
+  
         
         int Make = First + 2 * Second;
         PQ.push(Make);
