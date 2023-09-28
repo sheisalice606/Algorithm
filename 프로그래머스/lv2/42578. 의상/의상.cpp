@@ -1,21 +1,22 @@
 #include <string>
 #include <vector>
-#include <unordered_map>
+#include <map>
 using namespace std;
 
-unordered_map<string, vector<string>> Map;
+map<string, vector<string>> Map;
 
 int solution(vector<vector<string>> clothes) {
-    for(vector<string> v : clothes)
+    for(int i = 0; i < clothes.size(); i++)
     {
-        Map[v[1]].push_back(v[0]);
+        string item = clothes[i][0];
+        string cate = clothes[i][1];
+        Map[cate].push_back(item);
     }
     
-    int total = 1;
+    int sum = 1;
     for(auto E : Map)
     {
-        total *= (E.second.size() + 1);
+        sum *= (E.second.size() + 1);
     }
-    return total - 1;
-    
+    return sum - 1;
 }
