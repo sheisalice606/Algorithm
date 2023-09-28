@@ -2,34 +2,34 @@
 #include <vector>
 #include <algorithm>
 #include <unordered_map>
+#include <iostream>
 using namespace std;
-
-
-unordered_map<string, int> Map;
-
 
 bool solution(vector<string> phone_book) {
     
-
-    sort(phone_book.begin(), phone_book.end());
+    vector<string> Vector = phone_book;
+    sort(Vector.begin(), Vector.end());
+    //사전순 정렬
     
-    for(int i = 0; i < phone_book.size(); i++)
+    for(int i = 0; i < Vector.size() - 1; i++)
     {
-        string s = phone_book[i];
-        int len = s.length();
+        string curr = Vector[i];
+        string next = Vector[i+1];
         
-        for(int j = i + 1; j < phone_book.size(); j++)
+        if(curr.length() > next.length()) continue;
+        //접두사 가능성이 없는 경우
+        
+        bool Flag = true;
+        for(int j = 0; j < curr.length(); j++)
         {
-            if(phone_book[j].length() < len) break;
-            
-            if(phone_book[j].find(s) == string::npos) break;
-            
-            if(phone_book[j].find(s) == 0) return false;
+            if(curr[j] != next[j]) Flag = false; 
         }
+        if(Flag == true) return false;
+        //접두어 발견
+        
     }
     
     return true;
-    
 }
 
 
