@@ -2,39 +2,54 @@
 #include <queue>
 #include <vector>
 #include <algorithm>
+#include <iostream>
 using namespace std;
 
+int Ans = 1;
+vector<pair<int, int>> Vector;
 priority_queue<int, vector<int>, greater<int>> PQ;
 
+bool Cmp(pair<int, int> A, pair<int ,int> B) {
+    return A.first < B.first;
+}
 
 int solution(vector<vector<string>> book_time) {
-    int N = book_time.size();
-    sort(book_time.begin(), book_time.end());
-    //시작 시간 순으로 오름차순 정렬
     
-    int Cnt = 1;  
-    PQ.push(stoi(book_time[0][1].substr(0, 2)) * 60 + stoi(book_time[0][1].substr(3)));
-    
-    
-    for(int i = 1; i < N; i++)
+    for(auto E : book_time)
     {
-        int First = stoi(book_time[i][0].substr(0, 2)) * 60 + stoi(book_time[i][0].substr(3));
-        int Last = stoi(book_time[i][1].substr(0, 2)) * 60 + stoi(book_time[i][1].substr(3));  
+        int start = 60 * stoi(E[0].substr(0,2)) + stoi(E[0].substr(3));
+        int last = 60 * stoi(E[1].substr(0,2)) + stoi(E[1].substr(3));
+        Vector.push_back({start, last});
+    }
+    sort(Vector.begin(), Vector.end(), Cmp);
+    PQ.push(Vector[0].second);
+    
+    for(int i = 1; i < Vector.size(); i++)
+    {
+        int st = Vector[i].first;
+        int en = Vector[i].second;
         
-        if(PQ.top() + 10 <= First)
+        //대실 가능한 경우
+        if(st >= PQ.top() + 10)
         {
             PQ.pop();
-            PQ.push(Last);
+            PQ.push(en);
         }
         else
         {
-            Cnt++;
-            PQ.push(Last);
+            PQ.push(en);
+            Ans++;
         }
+        
+        //Ans = max(Ans, static_cast<int>(PQ.size()));
     }
     
-    
-    return Cnt;
-    
-    
+    return Ans;
 }
+
+
+
+
+
+
+
