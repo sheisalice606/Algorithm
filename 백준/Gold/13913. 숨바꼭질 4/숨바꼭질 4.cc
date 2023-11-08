@@ -33,38 +33,16 @@ void Bfs(int n) {
 			return;
 		}
 
-
-		if (curr * 2 <= 100000)
+		int next[3] = { curr * 2, curr + 1, curr - 1 };
+		for (int i = 0; i < 3; i++)
 		{
-			if (Visit[curr * 2] == 0)
-			{
-				Visit[curr * 2] = 1;
-				History[curr * 2] = curr;
-				Q.push({ curr * 2 , time + 1 });
-			}
-		}
-		
-		if (curr + 1 <= 100000)
-		{
-			if (Visit[curr + 1] == 0)
-			{
-				Visit[curr + 1] = 1;
-				History[curr + 1] = curr;
-				Q.push({ curr + 1, time + 1 });
-			}
-		}
+			if (next[i] < 0 || next[i] > 100000) continue;
+			if (Visit[next[i]] == 1) continue;
 
-		if (curr - 1 >= 0)
-		{
-			if (Visit[curr - 1] == 0)
-			{
-				Visit[curr - 1] = 1;
-				History[curr - 1] = curr;
-				Q.push({ curr - 1, time + 1 });
-			}
+			Visit[next[i]] = 1;
+			History[next[i]] = curr;
+			Q.push({ next[i], time + 1 });
 		}
-		
-
 	}
 }
 
@@ -85,6 +63,5 @@ int main() {
 	
 	for (int i = Path.size() - 1; i >= 0; i--)
 		cout << Path[i] << ' ';
-
 
 }
