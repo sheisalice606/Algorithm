@@ -11,39 +11,27 @@
 using namespace std;
 
 int N;
-int Map[11];
+int Map[10];
+int Ans[10];
 
 int main() {
 
 	cin >> N;
-	for (int i = 1; i <= N; i++) cin >> Map[i];
+	for (int i = 0; i < N; i++) cin >> Map[i];
 
-	vector<int> Vector;
-	Vector.push_back(N);
-
-	for (int i = N - 1; i >= 1; i--)
+	for (int i = 0; i < N; i++)
 	{
-		int Cnt = 0;
-		for (int j = 0; j < Vector.size(); j++)
+		int Curr = i + 1;
+		int Cnt = Map[i] + 1;
+
+		for (int j = 0; j < N; j++)
 		{
-			if (Vector[j] > i) Cnt++;
-
-			if (Cnt == Map[i])
-			{
-				Vector.insert(Vector.begin() + j + 1, i);
-				break;
-			}
-			else if (Cnt == Map[i] + 1)
-			{
-				Vector.insert(Vector.begin() + j, i);
-				break;
-			}
-
+			if (Ans[j] == 0) Cnt--;
+			if (Ans[j] > 0) continue;
+			if (Cnt == 0) Ans[j] = Curr;
 		}
+
 	}
 
-	for (int n : Vector)
-	{
-		cout << n << ' ';
-	} 
+	for (int i = 0; i < N; i++) cout << Ans[i] << ' ';
 }
