@@ -1,49 +1,36 @@
-#include <iostream>
-#include <vector>
-#include <queue>
-#include <algorithm>
-#include <cstring>
-#include <string>
-#include <map>
-#include <stack>
-#include <set>
+#include<iostream>
+#include<vector>
+#include<algorithm>
 using namespace std;
 
-int N, M, Ans;
-vector<int> Vector;
-priority_queue<int, vector<int>, greater<int>> PQ;
+int n,m, ans = 2e9 + 1;
+int v[100001];
 
 int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL); cout.tie(NULL);
 
-	cin >> N >> M;
+    cin >> n>>m;
 
-	for (int i = 0; i < N; i++)
-	{
-		int Temp;
-		cin >> Temp;
-		Vector.push_back(Temp);
-	}
-	sort(Vector.begin(), Vector.end());
+    for (int i = 0; i < n; i++) {
+        cin >> v[i];
+    }
+    
+    sort(v,v+n);
 
-
-	int en = 0;
-	for (int st = 0; st < N; st++)
-	{
-		if (Vector[en] - Vector[st] >= M)
-		{
-			PQ.push(Vector[en] - Vector[st]);
-			continue;
-		}
-
-		while (Vector[en] - Vector[st] < M && en < N - 1) 
-			en++;
-		
-		if (Vector[en] - Vector[st] >= M)
-		{
-			PQ.push(Vector[en] - Vector[st]);
-		}
-	}
-
-	cout << PQ.top();
-
+    int left = 0, right = 1;
+    while (left < n) {
+        if (v[right] - v[left] < m) {
+            right++;
+            continue;
+        }
+        if (v[right] - v[left] == m) {
+            cout << m;
+            return 0;
+        }
+        ans = min(ans, v[right] - v[left]);
+        left++;
+    }
+  
+    cout << ans;
 }
