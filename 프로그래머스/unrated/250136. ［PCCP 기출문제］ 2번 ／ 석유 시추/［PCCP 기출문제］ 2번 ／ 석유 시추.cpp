@@ -31,7 +31,6 @@ void Dfs(int x, int y) {
         
             
         //중복 방지
-        
         Visit[nx][ny] = 1;
         Area++;
         Dfs(nx, ny);
