@@ -83,14 +83,14 @@ void Dfs(int x, int y, int D) {
 				if (Map[nx][ny] == 1 || Map[nx - 1][ny] == 1 || Map[nx][ny - 1] == 1) continue;
 
 				Map[nx][ny] = 1;
-				Map[nx - 1][ny] = 1;
-				Map[nx][ny - 1] = 1;
+				//Map[nx - 1][ny] = 1;
+				//Map[nx][ny - 1] = 1;
 
-				Dfs(nx, ny, 2);
+				Dfs(nx, ny, i + 1);
 
 				Map[nx][ny] = 0;
-				Map[nx - 1][ny] = 0;
-				Map[nx][ny - 1] = 0;
+				//Map[nx - 1][ny] = 0;
+				//Map[nx][ny - 1] = 0;
 			}
 
 		}
@@ -120,14 +120,14 @@ void Dfs(int x, int y, int D) {
 				if (Map[nx][ny] == 1 || Map[nx - 1][ny] == 1 || Map[nx][ny - 1] == 1) continue;
 
 				Map[nx][ny] = 1;
-				Map[nx - 1][ny] = 1;
-				Map[nx][ny - 1] = 1;
+				//Map[nx - 1][ny] = 1;
+				//Map[nx][ny - 1] = 1;
 
 				Dfs(nx, ny, i + 1);
 
 				Map[nx][ny] = 0;
-				Map[nx - 1][ny] = 0;
-				Map[nx][ny - 1] = 0;
+				//Map[nx - 1][ny] = 0;
+				//Map[nx][ny - 1] = 0;
 			}
 
 			if (i == 2)
@@ -165,14 +165,14 @@ void Dfs(int x, int y, int D) {
 				if (Map[nx][ny] == 1 || Map[nx - 1][ny] == 1 || Map[nx][ny - 1] == 1) continue;
 
 				Map[nx][ny] = 1;
-				Map[nx - 1][ny] = 1;
-				Map[nx][ny - 1] = 1;
+				//Map[nx - 1][ny] = 1;
+				//Map[nx][ny - 1] = 1;
 
-				Dfs(nx, ny, 2);
+				Dfs(nx, ny, i + 1);
 
 				Map[nx][ny] = 0;
-				Map[nx - 1][ny] = 0;
-				Map[nx][ny - 1] = 0;
+				//Map[nx - 1][ny] = 0;
+				//Map[nx][ny - 1] = 0;
 			}
 
 		}
