@@ -27,28 +27,17 @@ void Search(int x, int y, long long Size) {
 		}
 	}
 
-	long long next = Size / 2;
-
-	if (R >= x && R < x + next && C >= y && C < y + next)
+	if (R >= x && R < x + Size && C >= y && C < y + Size)
 	{
-		Search(x, y, next);
-	}
-	else if (R >= x && R < x + next && C >= y + next && C < y + Size)
-	{
-		Cnt += pow(next, 2);
-		Search(x, y + next, next);
-	}
-	else if (R >= x + next && R < x + Size && C >= y && C < y + next)
-	{
-		Cnt += 2 * pow(next, 2);
-		Search(x + next, y, next);
+		Search(x, y, Size / 2);
+		Search(x, y + Size / 2, Size / 2);
+		Search(x + Size / 2, y, Size / 2);
+		Search(x + Size / 2, y + Size / 2, Size / 2);
 	}
 	else
 	{
-		Cnt += 3 * pow(next, 2);
-		Search(x + next, y + next, next);
+		Cnt += Size * Size;
 	}
-
 }
 
 int main() {
