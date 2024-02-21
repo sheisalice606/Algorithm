@@ -1,75 +1,74 @@
 #include <iostream>
-#include <queue>
 #include <algorithm>
-#include <cstring>
 #include <vector>
+#include <cstring>
+#include <queue>
 using namespace std;
-#define INF 987654321
 
 int N;
-int dist[125][125] = { 0 };
-int map[125][125] = { 0 };
+int Map[126][126];
+int Dist[126][126];
 
 int dx[4] = { 1, -1, 0, 0 };
 int dy[4] = { 0, 0, 1, -1 };
 
-priority_queue< pair<int, pair<int,int>>> pq; // cost, <x, y>
+void search(int x, int y) {
 
-void dijkstra() {
+	priority_queue<pair<int, pair<int, int>>> PQ;
 
-	pq.push({ -map[0][0], {0, 0}});
-	dist[0][0] = map[0][0];
+	Dist[x][y] = Map[x][y];
+	PQ.push({ -Map[x][y], {1, 1} });
+	// 값, 좌표
+	// 다익스트라에 Visit배열은 필요없다.
 
-	while (!pq.empty()) {
+	while (!PQ.empty())
+	{
+		int curr = -PQ.top().first; //가장 큰 값
 
-		int px = pq.top().second.first;
-		int py = pq.top().second.second;
-		int p_dist = -pq.top().first;
-		pq.pop();
+		int px = PQ.top().second.first;
+		int py = PQ.top().second.second;
+		PQ.pop();
 
-		if (dist[px][py] < p_dist) continue;
-
-		for (int i = 0; i < 4; i++) {
-
+		for (int i = 0; i < 4; i++)
+		{
 			int nx = px + dx[i];
 			int ny = py + dy[i];
-			int n_dist = p_dist + map[nx][ny];
 
-			if (nx >= 0 && ny >= 0 && nx <= N - 1 && ny <= N - 1) {
-				if (dist[nx][ny] > n_dist) {
-					dist[nx][ny] = n_dist;
-					pq.push({ -n_dist, {nx, ny} });
-				}
+			if (nx < 1 || ny < 1 || nx > N || ny > N) continue;
+			
+			//현재 위치에서 접근 가능한 노드
+			int next = curr + Map[nx][ny];
+			if (Dist[nx][ny] > next)
+			{
+				Dist[nx][ny] = next;
+				PQ.push({ -next, {nx, ny} });
 			}
 
 		}
 
 	}
+	
+
 
 }
 
 int main() {
-
-	int count = 1;
-
-	while (true) {
-
+	int time = 1;
+	while (true)
+	{
 		cin >> N;
-		if (!N) break;
+		if (N == 0) break;
 
-		for (int i = 0; i < N; i++) {
-			for (int j = 0; j < N; j++) {
-				dist[i][j] = INF;
-				cin >> map[i][j];
-			}
-		}
+		for (int i = 1; i <= N; i++)
+			for (int j = 1; j <= N; j++)
+			{
+				cin >> Map[i][j];
+				Dist[i][j] = 987654321;
+			}//초기화
 
-		dijkstra();
-		cout << "Problem " << count++ << ": " << dist[N - 1][N - 1] << endl;
 
-		memset(dist, 0, sizeof(dist));
-		memset(map, 0, sizeof(map));
-
+		search(1, 1);
+		cout << "Problem " << time << ": " << Dist[N][N] << '\n';
+		time++;
 	}
-
 }
