@@ -101,28 +101,6 @@ void Simulation() {
 	Ans = max(Ans, Total);
 }
 
-void Swap(int i, int j) {
-	int Temp = Order[i];
-	Order[i] = Order[j];
-	Order[j] = Temp;
-}
-
-bool Np() {
-	int N = Order.size() - 1;
-	
-	int i = N;
-	while (i > 0 && Order[i - 1] >= Order[i]) i--;
-	if (i == 0) return false;
-
-	int j = N;
-	while (Order[i - 1] >= Order[j]) j--;
-	Swap(i - 1, j);
-
-	int k = N;
-	while (k > i) Swap(i++, k--);
-	return true;
-}
-
 int main() {
 	Input();
 
@@ -130,7 +108,7 @@ int main() {
 		Order.insert(Order.begin() + 3, 0);
 		Simulation();
 		Order.erase(Order.begin() + 3);
-	} while (Np());
+	} while (next_permutation(Order.begin(), Order.end()));
 
 	cout << Ans << endl;
 }
