@@ -1,60 +1,51 @@
 #include <iostream>
-#include <vector>
-#include <stack>
-#include <cmath>
-#include <iostream>
-#include <queue>
 #include <algorithm>
-#include <string>
-#include <set>
+#include <vector>
+#include <queue>
+#include <cstring>
 #include <map>
+#include <string>
 using namespace std;
 
-string S;
-map<char, int> Map;
-int Ans, Len;
+string s;
+int Len;
 
+map<char, int> M;
+int Ans;
 
-void Dfs(int Count, string Temp) {
-	if (Count == Len)
-	{
+void Dfs(string Curr, int Count) {
+
+	if (Count == Len) {
 		Ans++;
 		return;
 	}
-
-	for (auto it = Map.begin(); it != Map.end(); it++)
-	{
+	
+	for (auto it = M.begin(); it != M.end(); it++) {
 		if (it->second == 0) continue;
-		if (Temp.back() == it->first) continue;
+		if (Curr.back() == it->first) continue;
 
 		it->second--;
-		Temp += it->first;
-		Dfs(Count + 1, Temp);
-		Temp.pop_back();
+		Dfs(Curr + it->first, Count + 1);
 		it->second++;
 	}
 }
 
 int main() {
-	cin >> S;
-	Len = S.length();
+	cin >> s;
+	Len = s.length();
 
-	for (int i = 0; i < S.length(); i++)
-		Map[S[i]]++;
+	for (int i = 0; i < Len; i++) {
+		M[s[i]]++;
+	}
 
-	string str = "";
-	for (auto it = Map.begin(); it != Map.end(); it++)
-	{
-		if (it->second > 0)
-		{
+	string start = "";
+	for (auto it = M.begin(); it != M.end(); it++) {
+		if (it->second > 0) {
 			it->second--;
-			str += it->first;
-
-			Dfs(1, str);
-
-			str.pop_back();
+			Dfs(start + it->first, 1);
 			it->second++;
 		}
 	}
 	cout << Ans;
+
 }
