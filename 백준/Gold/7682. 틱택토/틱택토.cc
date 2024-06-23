@@ -1,181 +1,108 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
+#include <queue>
+#include <cstring>
 #include <string>
 #include <map>
-#include <cstring>
-#include <cmath>
-#include <set>
-#include <queue>
+#include <limits>
 #include <stack>
 using namespace std;
 
-char Map[3][3];
+//1.반드시 첫 번째 사람이 X를 놓고, 두번째 사람이 O를 놓는다.
+//2. 누구든지 한 사람의 말이 가로, 세로, 대각선 방향으로 3칸을 잇는데 성공하면 게임은 즉시 끝난다.
+//3. 게임판이 가득 차도 게임은 끝난다.
+
+
+string S;
+char Map[10][10];
+
 
 void Print() {
-	cout << "MAP : " << endl;
-	for (int i = 0; i < 3; i++)
-	{
-		for (int j = 0; j < 3; j++)
-		{
+	for (int i = 1; i <= 3; i++) {
+		for (int j = 1; j <= 3; j++) {
 			cout << Map[i][j] << ' ';
 		} cout << endl;
-	} cout << endl;
+	}
 }
 
-//가득차면 True
-bool Check_Full() {
-	int Cnt = 0;
-	for (int i = 0; i < 3; i++)
-		for (int j = 0; j < 3; j++)
-			if (Map[i][j] == '.') Cnt++;
-	return Cnt == 0;
-}
-
-//반드시 X와 O가 같거나 X가 1 많아야함
-bool Check_Count() {
-	int X = 0;
-	int O = 0;
-	for (int i = 0; i < 3; i++)
-		for (int j = 0; j < 3; j++)
-		{
-			if (Map[i][j] == 'X') X++;
-			else if (Map[i][j] == 'O') O++;
+int Bingo(char C)  {
+	int result = 0;
+	//가로 | 세로
+	for (int i = 1; i <= 3; i++) {
+		int row = 0;
+		int col = 0;
+		for (int j = 1; j <= 3; j++) {
+			if (Map[i][j] == C) row++;
+			if (Map[j][i] == C) col++;
 		}
-	
-	if (X == O || X == O + 1) return true;
-	else return false;
+		if (row == 3) result++;
+		if (col == 3) result++;
+	}
+
+	if (Map[1][3] == C && Map[2][2] == C && Map[3][1] == C) result++;
+	if (Map[1][1] == C && Map[2][2] == C && Map[3][3] == C) result++;
+
+	return result;
 }
 
-bool Full_Fail()
-{
-	int X = 0;
-	int O = 0;
-	//가로 검사
-	for (int i = 0; i < 3; i++)
-	{
-		if (Map[i][0] == 'O' && Map[i][1] == 'O' && Map[i][2] == 'O') O++;
-		if (Map[i][0] == 'X' && Map[i][1] == 'X' && Map[i][2] == 'X') X++;
-	}
-
-	//세로 검사
-	for (int i = 0; i < 3; i++)
-	{
-		if (Map[0][i] == 'O' && Map[1][i] == 'O' && Map[2][i] == 'O') O++;
-		if (Map[0][i] == 'X' && Map[1][i] == 'X' && Map[2][i] == 'X') X++;
-	}
-
-	//대각선 검사
-	if (Map[0][0] == 'O' && Map[1][1] == 'O' && Map[2][2] == 'O') O++;
-	if (Map[0][0] == 'X' && Map[1][1] == 'X' && Map[2][2] == 'X') X++;
-	if (Map[0][2] == 'O' && Map[1][1] == 'O' && Map[2][0] == 'O') O++;
-	if (Map[0][2] == 'X' && Map[1][1] == 'X' && Map[2][0] == 'X') X++;
-
-	if (O > 0) return false;
-	else return true;
-}
-
-bool Check_One_Bingo() {
-	int X = 0;
-	int O = 0;
-	//가로 검사
-	for (int i = 0; i < 3; i++)
-	{
-		if (Map[i][0] == 'O' && Map[i][1] == 'O' && Map[i][2] == 'O') O++;
-		if (Map[i][0] == 'X' && Map[i][1] == 'X' && Map[i][2] == 'X') X++;
-	}
-
-	//세로 검사
-	for (int i = 0; i < 3; i++)
-	{
-		if (Map[0][i] == 'O' && Map[1][i] == 'O' && Map[2][i] == 'O') O++;
-		if (Map[0][i] == 'X' && Map[1][i] == 'X' && Map[2][i] == 'X') X++;
-	}
-
-	//대각선 검사
-	if (Map[0][0] == 'O' && Map[1][1] == 'O' && Map[2][2] == 'O') O++;
-	if (Map[0][0] == 'X' && Map[1][1] == 'X' && Map[2][2] == 'X') X++;
-	if (Map[0][2] == 'O' && Map[1][1] == 'O' && Map[2][0] == 'O') O++;
-	if (Map[0][2] == 'X' && Map[1][1] == 'X' && Map[2][0] == 'X') X++;
-
-
-	int X_Cnt = 0;
-	int O_Cnt = 0;
-	for(int i = 0; i < 3; i++)
-		for (int j = 0; j < 3; j++)
-		{
-			if (Map[i][j] == 'X') X_Cnt++;
-			else if (Map[i][j] == 'O') O_Cnt++;
+int Count(char C) {
+	int result = 0;
+	for (int i = 1; i <= 3; i++) {
+		for (int j = 1; j <= 3; j++) {
+			if (Map[i][j] == C) result++;
 		}
-
-
-	//X빙고
-	if (X == 1 && O == 0)
-		if (X_Cnt == O_Cnt + 1) return true;
-
-	//O빙고
-	if (X == 0 && O == 1)
-		if (X_Cnt == O_Cnt) return true;
-
-	return false;
+	}
+	return result;
 }
+
 
 int main() {
+
+	ios::sync_with_stdio(0);
 	cin.tie(NULL);
-	ios::sync_with_stdio(NULL);
-	
-	while (true)
-	{
-		string str;
-		cin >> str;
-		if (str == "end") break;
-		memset(Map, 0, sizeof(Map));
 
-		for (int i = 0; i < str.length(); i++)
-		{
-			int x = i / 3; 
+	while (true) {
+
+		cin >> S;
+		if (S == "end") break;
+		for (int i = 0; i < 9; i++) {
+			int x = i / 3;
 			int y = i % 3;
-			Map[x][y] = str[i];
+			Map[x + 1][y + 1] = S[i];
 		}
 
-		//1순위 필터 : 갯수
-		if (Check_Count() == false)
-		{
-			cout << "invalid" << '\n';
-			continue;
-		}
-
-
-		//2순위 : 가득 참
-		if (Check_Full() == true)
-		{
-			//가득 참 -> O 빙고 -> invalid
-			if (Full_Fail() == false)
-			{
-				cout << "invalid" << '\n';
-				continue;
-			}
-			else
-			{
-				cout << "valid" << '\n';
-				continue;
+		//바둑판이 가득 찬 상황
+		if (Count('O') + Count('X') == 9) {
+			//X가 하나 많아야 함
+			if (Count('O') + 1 == Count('X')) {
+				//X빙고인 경우, 1빙고 혹은 2빙고임
+				if (Bingo('O') == 0 && (Bingo('X') <= 2)) {
+					cout << "valid" << endl;
+					continue;
+				}
 			}
 		}
-
-
-		if (Check_One_Bingo() == true)
-		{
-			cout << "valid" << '\n';
-			continue;
+		//바둑판이 가득 차지 않은 상황
+		else {
+			//X와 O가 같은 경우, O 빙고 마무리여야 한다.
+			if (Count('O') == Count('X')) {
+				if (Bingo('O') == 1 && Bingo('X') == 0) {
+					cout << "valid" << endl;
+					continue;
+				}
+			}
+			//X가 하나 많은 경우, X 빙고 마무리여야 한다.
+			if (Count('O') + 1 == Count('X')) {
+				if (Bingo('O') == 0 && Bingo('X') == 1) {
+					cout << "valid" << endl;
+					continue;
+				}
+			}
 		}
-		else
-		{
-			cout << "invalid" << '\n';
-			continue;
-		}
+
+		cout << "invalid" << endl;
 
 	}
 
-
-
-} 
+}
