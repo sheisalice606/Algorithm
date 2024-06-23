@@ -29,7 +29,7 @@ int main() {
 	}
 	if (P.size() == 0)
 	{
-		cout << M[N - 2] << ' ' << M[N - 1];
+		cout << M[M.size() - 2] << ' ' << M[M.size() - 1];
 		exit(0);
 	}
 	else if (M.size() == 0)
@@ -37,13 +37,11 @@ int main() {
 		cout << P[0] << ' ' << P[1];
 		exit(0);
 	}
-
+	
 	
 	int st = 0;
 	int en = P.size() - 1;
-	
-	
-	
+
 	while (true)
 	{
 		int curr = M[st] + P[en];
@@ -53,8 +51,8 @@ int main() {
 			Second = P[en];
 			Ans = abs(curr);
 		}
+		if (Ans == 0) break;
 
-		if (curr == 0) break;
 		else if (curr < 0)
 		{
 			if (st < M.size() - 1) st++;
@@ -78,7 +76,6 @@ int main() {
 		First = M[M.size() - 2];
 		Second = M[M.size() - 1];
 	}
-
 
 	cout << First << ' ' << Second;
 	exit(0);
