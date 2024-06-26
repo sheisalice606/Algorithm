@@ -31,11 +31,8 @@ int main() {
 		}
 
 		if (en == N) break;
-
-		if(Cnt <= K) {
-			if (Map[en] % 2 == 1) Cnt++;
-			en++;
-		}
+		else if (Map[en] % 2 == 1) Cnt++;
+		en++;
 
 	}
 
