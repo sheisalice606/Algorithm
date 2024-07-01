@@ -3,35 +3,28 @@ import java.util.*;
 import java.lang.*;
 
 
-class Point {
-    int x;
-    int y;
-    Point(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-}
-
 class Solution {
     
     static int N, M, Ans;
-    static int [][] Map;
-    static int [][] Visit;
+    static int [][] Map, Visit;
     
-    static int [] dx = {1, -1, 0, 0};
-    static int [] dy = {0, 0, 1, -1};
-    
+    static int [] dx = {1, -1, 0, 0}, dy = {0, 0, 1, -1};
     static int [] Sum;
     
-    //BFS
+    
+    private static class Point {
+        int x, y;
+        Point (int x, int y) { this.x = x; this.y = y; }
+    }
+    
     public static void Bfs(int x, int y) {
     
+        HashSet<Integer> Hash = new HashSet<>();
         Queue<Point> Q = new LinkedList<>();
         Q.add(new Point(x, y));
         
-        int [] Temp = new int [M + 1];
         Visit[x][y] = 1;
-        Temp[y] = 1;
+        Hash.add(y);
         int Cnt = 1;
         
         while(!Q.isEmpty()) {
@@ -46,17 +39,16 @@ class Solution {
                 if(Visit[nx][ny] == 1 || Map[nx][ny] == 0) continue;
                 
                 Visit[nx][ny] = 1;
-                Temp[ny] = 1;
+                Hash.add(ny);
                 Cnt++;
                 Q.add(new Point(nx ,ny));
             }
         }
     
         //각 석유덩어리가 퍼진 가로행을 체크
-        for(int i = 1; i <= M; i++) {
-            if(Temp[i] == 1) {
-                Sum[i] += Cnt;
-            }
+        Iterator<Integer> it = Hash.iterator();
+        while(it.hasNext()) {
+            Sum[it.next()] += Cnt;
         }
         
     }
@@ -78,7 +70,6 @@ class Solution {
         //전역화
        
         for(int i = 1; i <= M; i++) {
-            int sum = 0;
             for(int j = 1; j <= N; j++) {
                 if(Map[j][i] == 0 || Visit[j][i] == 1) continue;
                 Bfs(j, i);
