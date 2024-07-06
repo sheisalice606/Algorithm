@@ -4,7 +4,7 @@ import java.util.*;
 public class Main {
 
     static int N, M, Time = 1;
-    static int [] Parent, Visit, Rank;
+    static int [] Parent, Rank;
     static boolean[] isCycle;
 
     public static void Init() {
@@ -50,7 +50,6 @@ public class Main {
 
             if(N == 0 && M == 0) break;
             Parent = new int[N + 1];
-            Visit = new int[N + 1];
             Rank = new int[N + 1];
             isCycle = new boolean[N + 1];
             Init();
