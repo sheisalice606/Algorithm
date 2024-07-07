@@ -57,7 +57,9 @@ public class Main {
         Visit[1][1] = 1;
         Hash.put(Map[1][1], 1);
         Dfs(1, 1, 1);
-        System.out.println(Ans);
+        bw.write(String.valueOf(Ans));
+        bw.flush();
+        bw.close();
 
     }
 
