@@ -44,8 +44,3 @@ order by
     fee desc,
     car_type asc,
     car_id desc
-    
-    
-    
-    
-    
